@@ -1,9 +1,16 @@
-﻿namespace Company
+﻿namespace Person
 {
-    class Company
+    static class Company
     {
-        protected internal string Address { get; private set; }
-        protected internal string Name { get; private set; }
-        protected internal string HotLinePhone { get; private set; }
+        internal static string Address;
+        internal static string Name;
+        internal static string HotLinePhone;
+
+        static Company()
+        {
+            Name = "Delivery Clab";
+            Address = "г. Москва, Невский проспект пр. д.14 к.4";
+            HotLinePhone = "88005553535";
+        }
     }
 }
