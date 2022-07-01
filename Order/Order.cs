@@ -1,35 +1,43 @@
 ﻿namespace Order
 {
     using Delivery;
+    using Person;
 
-    class Order<TDelivery, TNumber> where TDelivery : Delivery
+    class Order<TDelivery, TNumber, TProdact> where TDelivery : Delivery
     {
-        public TDelivery Delivery;
-        
-        private TNumber number;
+        private TDelivery Delivery;
+
+        public TProdact Prodact;
+        public Client Client;
+        public Staff Courier;
+
+        public DateTime OrderDate;
+        public DateTime StorageEndTime;
+
         public TNumber Number
         {
-            get 
-            { 
-                return number; 
-            }
+            get { return Number; } 
+            internal set { Number = value; }
         }
-        
-        private string description;
+
         public string Description
         {
             get 
             { 
-                return description; 
+                return Description; 
             }
-            private set
+            internal set
             {
-                description = value;
+                Description = value;
             }
         }
 
-        private bool orderReceived;
-        public bool OrderReceived { get; private set; }
+        public bool OrderReceived { get; internal set; }        
+
+        public void GetOrderTime(Order<TDelivery, TNumber, TProdact> order)
+        {
+
+        }
 
         public void DisplayAddress()
         {

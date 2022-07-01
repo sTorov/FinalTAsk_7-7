@@ -8,38 +8,42 @@
         protected string Age { get; set; }
         protected string PhoneNumber { get; set; }
 
-        protected internal abstract void GetInfo();
+        public virtual void GetInfo()
+        {
+            Console.WriteLine($"Имя:\t\t\t{FirstName ?? "Нет данных"}");
+            Console.WriteLine($"Фамилия:\t\t{SecondName ?? "Нет данных"}");
+            Console.WriteLine($"Отчество:\t\t{LastName ?? "Нет данных"}");
+            Console.WriteLine($"Возраст:\t\t{Age ?? "Нет данных"}");
+            Console.WriteLine($"Номер телефона:\t\t{PhoneNumber ?? "Нет данных"}");
+        }
+
+        public Person(string name, string surname, string lastname, string age, string number)
+        {
+            FirstName = name;
+            SecondName = surname;
+            LastName = lastname;
+            Age = age;
+            PhoneNumber = number;
+        }
     }
 
     class Client : Person
     {
-        protected internal override void GetInfo()
+        public Client(string name, string surname, string lastname, string age, string number) : base (name, surname, lastname, age, number) { }
+        public override void GetInfo()
         {
             Console.WriteLine("------------------------------Информация о заказчике------------------------------");
-            Console.WriteLine($"Имя:\t\t\t{FirstName ?? "Нет данных"}");
-            Console.WriteLine($"Фамилия:\t\t{SecondName ?? "Нет данных"}");
-            Console.WriteLine($"Отчество:\t\t{LastName ?? "Нет данных"}");
-            Console.WriteLine($"Возраст:\t\t{Age ?? "Нет данных"}");
-            Console.WriteLine($"Номер телефона:\t\t{PhoneNumber ?? "Нет данных"}");
+            base.GetInfo();
         }
     }
     class Staff : Person 
     {
-        protected internal override void GetInfo()
+        public Staff(string name, string surname, string lastname, string age, string number) : base(name, surname, lastname, age, number) { }
+
+        public override void GetInfo()
         {
             Console.WriteLine("------------------------------Информация о курьере---------------------------------");
-            Console.WriteLine($"Имя:\t\t\t{FirstName ?? "Нет данных"}");
-            Console.WriteLine($"Фамилия:\t\t{SecondName ?? "Нет данных"}");
-            Console.WriteLine($"Отчество:\t\t{LastName ?? "Нет данных"}");
-            Console.WriteLine($"Возраст:\t\t{Age ?? "Нет данных"}");
-            Console.WriteLine($"Номер телефона:\t\t{PhoneNumber ?? "Нет данных"}");
-        }
-        public void GetCompanyInfo()
-        {
-            Console.WriteLine("------------------------------Курьерская служба------------------------------------");
-            Console.WriteLine($"Название:\t\t\t{Company.Name}");
-            Console.WriteLine($"Адрес:\t\t\t\t{Company.Address}");
-            Console.WriteLine($"Телефон горячей линии:\t\t{Company.HotLinePhone}");
+            base.GetInfo();
         }
     }
 }

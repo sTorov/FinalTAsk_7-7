@@ -2,29 +2,30 @@
 {
     abstract class Product
     {
-        protected internal string Name { get; internal set; }
-        protected internal double Cost { get; internal set; }
-        protected internal string Model { get; internal set; }
-        protected internal string Description { get; internal set; }
+        public string Name { get; set; }
+        public double Cost { get; set; }
+        public string Model { get; set; }
     }
 
     class PowerSupply : Product 
     {
-        protected internal int Power { get; internal set; }
+        public int Power { get; set; }
     }
     class Processor : Product
     {
-        protected internal double Frequency { get; internal set; }
+        public double Frequency { get; set; }
     }
     class HardDrive : Product
     {
-        protected internal double Memory { get; internal set; }
+        public double Memory { get; set; }
     }
+
+
     class ComputerPart
     {
-        protected internal PowerSupply PowerSupply { get; internal set; }
-        protected internal HardDrive HardDrive { get; internal set; }
-        protected internal Processor Processor { get; internal set; }
+        public PowerSupply PowerSupply { get; set; }
+        public HardDrive HardDrive { get; set; }
+        public Processor Processor { get; set; }
     }
     enum MotherBoard
     {
@@ -38,7 +39,7 @@
         private int Height;
         private int Length;
 
-        protected internal Dimensions(int Width, int Height, int Length)
+        public Dimensions(int Width, int Height, int Length)
         {
             this.Width = Width;
             this.Height = Height;
@@ -48,7 +49,7 @@
 
     abstract class Corps : Product
     {
-        protected internal string CorpsMaterial { get; set; }
+        public string CorpsMaterial { get; set; }
 
     }
 
@@ -69,13 +70,13 @@
         protected TCorps Corps = new TCorps();
         protected ComputerPart part = new ComputerPart();
 
-        protected internal abstract void ChangeComputerPart<TComputerPart>(TComputerPart newPart) where TComputerPart : ComputerPart;
+        public abstract void ChangeComputerPart<TComputerPart>(TComputerPart newPart) where TComputerPart : ComputerPart;
 
     }
 
     class ATXComputer<TComputer> : Computer<ATX<Corps>> 
     {
-        protected internal override void ChangeComputerPart<TComputerPart>(TComputerPart newPart) 
+        public override void ChangeComputerPart<TComputerPart>(TComputerPart newPart) 
         { 
             part = new ComputerPart
             {
@@ -87,7 +88,7 @@
     }
     class MiniITXComputer<TComputer> : Computer<MiniITX<Corps>>
     {
-        protected internal override void ChangeComputerPart<TComputerPart>(TComputerPart newPart) 
+        public override void ChangeComputerPart<TComputerPart>(TComputerPart newPart) 
         {
             part = new ComputerPart
             {
