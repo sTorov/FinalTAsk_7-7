@@ -27,11 +27,14 @@
         public HardDrive HardDrive { get; set; }
         public Processor Processor { get; set; }
     }
-    enum MotherBoard
+
+
+    enum MotherBoardFormFactor
     {
         ATX = 0,
         MiniITX
     }
+
 
     class Dimensions
     {
@@ -50,31 +53,47 @@
     abstract class Corps : Product
     {
         public string CorpsMaterial { get; set; }
+        public MotherBoardFormFactor MotherBoard { get; set; }
+        public Dimensions Dimensions { get; set; }
 
+        public Corps(string name, double cost, string model)
+        {
+            Name = name;
+            Cost = cost;
+            Model = model;
+        }
     }
 
-    class ATX<TCorps> : Corps where TCorps : Corps
+    class ATX : Corps
     {
-        protected MotherBoard MotherBoard = MotherBoard.ATX;
-        protected Dimensions Dimensions = new Dimensions(210, 410, 478);
+        public ATX() : base ("Corps", 3500, "ATX Corps")
+        {
+            MotherBoard = MotherBoardFormFactor.ATX;
+            Dimensions = new Dimensions(210, 180, 220);
+            CorpsMaterial = "Steel";
+        }
     }
 
-    class MiniITX<TCorps> : Corps where TCorps : Corps
+    class MiniITX : Corps
     {
-        protected MotherBoard MotherBoard = MotherBoard.MiniITX;
-        protected Dimensions Dimensions = new Dimensions(185, 274, 360);
+        public MiniITX() : base ("Corps", 2500, "MiniITX Corps")
+        {
+            MotherBoard = MotherBoardFormFactor.MiniITX;
+            Dimensions = new Dimensions(185, 274, 360);
+            CorpsMaterial = "Aluminium";
+        }
     }
 
-    abstract class Computer<TCorps> : Corps where TCorps : Corps, new()
+    abstract class Computer<TCorps> : Product where TCorps : Corps, new()
     {
-        protected TCorps Corps = new TCorps();
         protected ComputerPart part = new ComputerPart();
+        protected TCorps corps = new TCorps();
 
         public abstract void ChangeComputerPart<TComputerPart>(TComputerPart newPart) where TComputerPart : ComputerPart;
 
     }
 
-    class ATXComputer<TComputer> : Computer<ATX<Corps>> 
+    class ATXComputer : Computer<ATX> 
     {
         public override void ChangeComputerPart<TComputerPart>(TComputerPart newPart) 
         { 
@@ -86,7 +105,7 @@
             };
         }
     }
-    class MiniITXComputer<TComputer> : Computer<MiniITX<Corps>>
+    class MiniITXComputer : Computer<MiniITX>
     {
         public override void ChangeComputerPart<TComputerPart>(TComputerPart newPart) 
         {
