@@ -12,29 +12,13 @@
             Console.OutputEncoding = System.Text.Encoding.UTF7;
             Console.InputEncoding = System.Text.Encoding.UTF7;
 
-            //Staff staff = new Staff();
-            //staff.GetInfo();
-            //staff.GetCompanyInfo();
+            MiniITXComputer miniITX = new MiniITXComputer();
+            ATXComputer atx = new ATXComputer();
 
-            Console.WriteLine();
+            Processor processor = new Processor(33.33, "PPPPPP");
+            PowerSupply powerSupply = new PowerSupply(150, "QWERTY");
 
-            MiniITXComputer computer1 = new MiniITXComputer { Cost = 25000, Model = "PC", Name = "Asus" };
-            ComputerPart newPart = new ComputerPart
-            {
-                Processor = new Processor {  Cost = 10000, Model = "p", Name = "Processor", Frequency = 2.5 },
-                PowerSupply = new PowerSupply { Cost = 1000, Model = "pw", Name = "Power", Power = 25 },
-                HardDrive = new HardDrive { Cost = 3000, Model = "hd", Name = "Disk", Memory = 34 }
-            };
-
-            computer1.ChangeComputerPart(newPart);
-
-            Console.ReadLine();
-
-            ComputerPart computerPart = new ComputerPart
-            {
-                Processor = new Processor { Frequency = 4 }
-            };
-            computer1.ChangeComputerPart(computerPart);
+            atx.ChangeComputerPart(powerSupply);
 
             //Client client = new Client("Ivan", null, "44", null, null);
             //Staff staff = new Staff("123", "123", "123", "123", "123");
