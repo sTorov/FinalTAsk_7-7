@@ -1,4 +1,4 @@
-﻿namespace Person
+﻿namespace Order
 {
     static class Company
     {

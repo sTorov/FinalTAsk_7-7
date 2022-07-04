@@ -1,10 +1,5 @@
 ﻿namespace Order
 {
-    using Person;
-    using Product;
-    using Delivery;
-    using Order;
-
     class Program
     {
         static void Main(string[] args)
@@ -20,15 +15,18 @@
 
             atx.ChangeComputerPart(powerSupply);
 
-            Client client = new Client("CLient", null, "44", null, null);
-            Staff staff = new Staff("Staff", "123", "123", "123", "123");
+            Client client = new Client("Name", "Surname", "Lastname", "23", "321321");
+            Staff staff = new Staff("Name", "Surname", "123123");
 
-            HomeDelivery home = new HomeDelivery("DDD", client, staff);
-            PickPointDelivery pickPoint = new PickPointDelivery("Address 3", client);
-            ShopDelivery shop = new ShopDelivery(client);
+            HomeDelivery home = new HomeDelivery("DDD", staff);
+            PickPointDelivery pickPoint = new PickPointDelivery("Address 3");
+            ShopDelivery shop = new ShopDelivery();
 
-            home.GetCompanyInfo(); pickPoint.GetCompanyInfo(); shop.GetCompanyInfo();
-            pickPoint.GetAllPickPoint();
+            ShopDeliveryOrder<int, Processor> order1 = new (client, processor, 4431, "......");
+            PickPointDeliveryOrder<string, ATXComputer> order2 = new(client, atx, "123123", "ND-3412", "////");
+            HomeDeliveryOrder<int, PowerSupply> order3 = new(client, powerSupply, "ADDres" , 4512, "//..,,,", staff); 
+
+            order1.
 
             Console.ReadKey();
         }

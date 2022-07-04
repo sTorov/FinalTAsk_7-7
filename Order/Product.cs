@@ -1,4 +1,4 @@
-﻿namespace Product
+﻿namespace Order
 {
     abstract class Product
     {
