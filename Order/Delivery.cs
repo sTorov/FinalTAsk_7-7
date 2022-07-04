@@ -1,28 +1,18 @@
 ﻿namespace Delivery
 {
-    using Order;
     using Person;
-    using Product;
 
     abstract class Delivery
     {
         public string Address;
-        public virtual Order<TDelivery, TNumber, TProdact> CheckoutOrder<TDelivery, TNumber, TProdact>(TNumber Number, string Description, Client person, string Address, TProdact prodact, Staff Courier = null)
-            where TDelivery : Delivery
-            where TProdact : Product
+        public Client Client;
+        public DateTime OrderDate;
+
+        public Delivery (string address, Client client)
         {
-            Order<TDelivery, TNumber, TProdact> order = new();
-
-            this.Address = Address;
-            order.Prodact = prodact;
-            order.Client = person;
-            order.Number = Number;
-            order.Description = Description;
-            order.OrderDate = DateTime.Now;
-            order.OrderReceived = false;
-
-
-            return order;
+            Address = address;
+            Client = client;
+            OrderDate = DateTime.Now;
         }
 
         public abstract void GetCompanyInfo();
@@ -31,15 +21,15 @@
 
     class HomeDelivery : Delivery
     {
-        public override Order<TDelivery, TNumber, TProdact> CheckoutOrder<TDelivery, TNumber, TProdact>(TNumber Number, string Description, Client person, string Address, TProdact prodact, Staff courier)
+        public Staff Courier;
+        public DateTime TimeOfDelivery;
+
+        public HomeDelivery(string address, Client client, Staff courier) : base (address, client) 
         {
-            Order<TDelivery, TNumber, TProdact> order = base.CheckoutOrder<TDelivery, TNumber, TProdact>(Number, Description, person, Address, prodact);
-            order.Courier = courier;
-
-            order.StorageEndTime = order.OrderDate.AddDays(1);
-
-            return order;
+            Courier = courier;
+            TimeOfDelivery = OrderDate.AddDays(1);
         }
+
         public override void GetCompanyInfo()
         {
             Console.WriteLine("------------------------------Курьерская служба------------------------------------");
@@ -51,40 +41,24 @@
 
     class PickPointDelivery : Delivery
     {
-        public override Order<TDelivery, TNumber, TProdact> CheckoutOrder<TDelivery, TNumber, TProdact>(TNumber Number, string Description, Client person, string Address, TProdact prodact, Staff Courier = null)
+        public DateTime StorageEndTime;
+
+        public PickPointDelivery(string address, Client client) : base (null, client)
         {
-            Order<TDelivery, TNumber, TProdact> order = base.CheckoutOrder<TDelivery, TNumber, TProdact>(Number, Description, person, Address, prodact);
-            PickPointCollection collection = new PickPointCollection();
-
-            Address = collection[Address]?.Address ?? String.Empty;
-            if (Address == String.Empty)
+            
+            for (int i = 0; i < PickPointCollection.collection.Length ; i++)
             {
-                Console.WriteLine("Пункта выдачи по такому адресу не существует! Невозможно оформить заказ!");
-                return null;
+                if (PickPointCollection.collection[i].Address == address)
+                    Address = address;
             }
-            else
-                this.Address = Address;
+            Address ??= "Пункта выдачи по данному адресу не существует!";
 
-            order.StorageEndTime = order.OrderDate.AddDays(5);
-
-            return order;
-        }
-
-        public void GetAllPickPoint()
-        {
-            PickPointCollection array = new PickPointCollection();
-            PickPoint[] pickPoint = array.collection;
-
-            Console.WriteLine("------------------------------Адреса пунктов выдачи-----------------------------");
-            for (int i = 0; i < pickPoint.Length; i++)
-            {
-                Console.WriteLine(pickPoint[i].Address);
-            }
+            StorageEndTime = OrderDate.AddDays(5);
         }
 
         public override void GetCompanyInfo()
         {
-            Console.WriteLine("------------------------------Контакты Pick Point-------------------------------");
+            Console.WriteLine("------------------------------Контакты Pick Point----------------------------------");
             Console.WriteLine($"Телефон:\t\t\t{PickPointContact.PhoneNumber}");
             Console.WriteLine($"Email:\t\t\t\t{PickPointContact.Email}");
         }
@@ -95,7 +69,7 @@
         }
         class PickPointCollection
         {
-            internal protected PickPoint[] collection = new PickPoint[]
+            static public PickPoint[] collection = new PickPoint[]
             {
                 new PickPoint { Address = "Address 1" },
                 new PickPoint { Address = "Address 2" },
@@ -103,7 +77,6 @@
                 new PickPoint { Address = "Address 4" },
                 new PickPoint { Address = "Address 5" }
             };
-
             public PickPoint this[string address]
             {
                 get
@@ -117,24 +90,27 @@
                     return null;
                 }
             }
-
+        }
+        public void GetAllPickPoint()
+        {
+            Console.WriteLine("------------------------------Адреса пунктов выдачи--------------------------------");
+            for (int i = 0; i < PickPointCollection.collection.Length; i++)
+                Console.WriteLine(PickPointCollection.collection[i].Address);
         }
     }
 
     class ShopDelivery : Delivery
     {
-        public override Order<TDelivery, TNumber, TProdact> CheckoutOrder<TDelivery, TNumber, TProdact>(TNumber Number, string Description, Client person, string Address, TProdact prodact, Staff Courier = null)
+        public DateTime StorageEndTime;
+
+        public ShopDelivery(Client client) : base (Shop.Address, client)
         {
-            Order<TDelivery, TNumber, TProdact> order = base.CheckoutOrder<TDelivery, TNumber, TProdact>(Number, Description, person, Address, prodact);
-
-            order.StorageEndTime = order.OrderDate.AddDays(3);
-
-            return order;
+            StorageEndTime = OrderDate.AddDays(3);
         }
 
         public override void GetCompanyInfo()
         {
-            Console.WriteLine("------------------------------Магазин Shop------------------------------------");
+            Console.WriteLine("------------------------------Магазин Shop-----------------------------------------");
             Console.WriteLine($"Адрес:\t\t\t\t{Shop.Address}");
             Console.WriteLine($"Телефон:\t\t\t{Shop.PhoneNumber}");
             Console.WriteLine($"Email:\t\t\t\t{Shop.Email}");

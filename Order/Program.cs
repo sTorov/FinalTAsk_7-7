@@ -20,18 +20,15 @@
 
             atx.ChangeComputerPart(powerSupply);
 
-            //Client client = new Client("Ivan", null, "44", null, null);
-            //Staff staff = new Staff("123", "123", "123", "123", "123");
-            //ShopDelivery shop = new ShopDelivery();
-            //HomeDelivery home = new HomeDelivery();
-            //PickPointDelivery point = new PickPointDelivery();
+            Client client = new Client("CLient", null, "44", null, null);
+            Staff staff = new Staff("Staff", "123", "123", "123", "123");
 
-            //Order<Delivery, int, Product> order = shop.CheckoutOrder<Delivery, int, Product>(1234, "desc", client, Shop.Address, computer1);
-            //Order<Delivery, int, Product> order2 = home.CheckoutOrder<Delivery, int, Product>(1234, "desc", client, "Add", computer1, staff);
-            //Order<Delivery, int, Product> order3 = point.CheckoutOrder<Delivery, int, Product>(1234, "desc", client, "Address 5", computer1);
+            HomeDelivery home = new HomeDelivery("DDD", client, staff);
+            PickPointDelivery pickPoint = new PickPointDelivery("Address 3", client);
+            ShopDelivery shop = new ShopDelivery(client);
 
-            //client.GetInfo();
-            //staff.GetInfo();
+            home.GetCompanyInfo(); pickPoint.GetCompanyInfo(); shop.GetCompanyInfo();
+            pickPoint.GetAllPickPoint();
 
             Console.ReadKey();
         }

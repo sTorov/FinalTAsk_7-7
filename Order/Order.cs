@@ -1,38 +1,29 @@
 ﻿namespace Order
 {
     using Delivery;
-    using Person;
+    using Product;
 
-    class Order<TDelivery, TNumber, TProdact> where TDelivery : Delivery
+    class Order<TDelivery, TNumber, TProdact> 
+        where TDelivery : Delivery
+        where TProdact : Product
     {
-        private TDelivery Delivery;
-
+        public TDelivery Delivery;
         public TProdact Prodact;
-        public Client Client;
-        public Staff Courier;
 
-        public DateTime OrderDate;
-        public DateTime StorageEndTime;
+        public TNumber Number { get; set; }
 
-        public TNumber Number
+        public string Description { get; set; }        
+
+        public bool OrderReceived { get; set; }
+        
+        public Order(TDelivery delivery, TProdact prodact, TNumber number, string description)
         {
-            get { return Number; } 
-            internal set { Number = value; }
+            Delivery = delivery;
+            Prodact = prodact;
+            Number = number;
+            Description = description;
         }
 
-        public string Description
-        {
-            get 
-            { 
-                return Description; 
-            }
-            internal set
-            {
-                Description = value;
-            }
-        }
-
-        public bool OrderReceived { get; internal set; }        
 
         public void GetOrderTime(Order<TDelivery, TNumber, TProdact> order)
         {
@@ -42,8 +33,6 @@
         public void DisplayAddress()
         {
             Console.WriteLine(Delivery.Address);
-        }
-        
-        // ... Другие поля
+        }        
     }
 }
