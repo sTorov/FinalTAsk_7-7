@@ -1,5 +1,6 @@
 ﻿namespace Order
 {
+    
     class Program
     {
         static void Main(string[] args)
@@ -22,13 +23,12 @@
             PickPointDelivery pickPoint = new PickPointDelivery("Address 3");
             ShopDelivery shop = new ShopDelivery();
 
-            ShopDeliveryOrder<int, Processor> order1 = new (client, processor, 4431, "......");
-            PickPointDeliveryOrder<string, ATXComputer> order2 = new(client, atx, "Address 3", "ND-3412", "////");
-            HomeDeliveryOrder<int, PowerSupply> order3 = new(client, powerSupply, "ADDres" , 4512, "//..,,,", staff);
+            ShopOrder<int, Processor> order1 = new (client, processor, 4431, "......");
+            PickPointOrder<string, ATXComputer> order2 = new(client, atx, "ND-3412", "////", "Address 3");
+            HomeOrder<int, PowerSupply> order3 = new(client, powerSupply, 4512, "//..,,,", "ADDress", staff);
 
-            //string asd = PickPointCollection.collection["asd"];
 
-            order2.GetAllPickPoint();
+            order2.Client.Info();
 
             Console.ReadKey();
         }

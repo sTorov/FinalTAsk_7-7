@@ -2,9 +2,9 @@
 {
     abstract class Product
     {
-        public string Name { get; set; }
-        public double Cost { get; set; }
-        public string Model { get; set; }
+        public string Name { get; }
+        public double Cost { get; }
+        public string Model { get; }
 
         public Product(string name, double cost, string model)
         {
@@ -17,7 +17,7 @@
 
     class PowerSupply : ComputerPart
     {
-        public int Power { get; set; }
+        protected int Power;
 
         public PowerSupply() : base ("Power", 1500, "PW-02")
         {
@@ -30,7 +30,7 @@
     }
     class Processor : ComputerPart
     {
-        public double Frequency { get; set; }
+        protected double Frequency;
         public Processor() : base ("Processor", 5000, "Intel i3")
         {
             Frequency = 3.1;
@@ -42,7 +42,7 @@
     }
     class HardDrive : ComputerPart
     {
-        public double Memory { get; set; }
+        protected double Memory;
         public HardDrive() : base ("Disk", 4000, "Toshiba")
         {
             Memory = 512;
@@ -79,9 +79,9 @@
 
     abstract class Corps : Product
     {
-        public string CorpsMaterial { get; set; }
-        public MotherBoardFormFactor MotherBoard { get; set; }
-        public Dimensions Dimensions { get; set; }
+        protected string CorpsMaterial { get; set; }
+        protected MotherBoardFormFactor MotherBoard { get; set; }
+        protected Dimensions Dimensions { get; set; }
 
         public Corps(string name, double cost, string model) : base (name, cost, model) { }
     }
@@ -108,7 +108,7 @@
 
     abstract class Computer<TCorps> : Product where TCorps : Corps, new()
     {
-        protected Computer(string name, double cost, string model) : base (name, cost, model) { }
+        public Computer(string name, double cost, string model) : base (name, cost, model) { }
 
         protected PowerSupply powerSupply = new PowerSupply();
         protected Processor processor = new Processor();

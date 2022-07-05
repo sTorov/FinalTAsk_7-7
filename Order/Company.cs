@@ -1,12 +1,12 @@
 ﻿namespace Order
 {
-    static class Company
+    static class DeliveryCompany
     {
-        internal static string Address;
-        internal static string Name;
-        internal static string HotLinePhone;
+        public static string Address;
+        public static string Name;
+        public static string HotLinePhone;
 
-        static Company()
+        static DeliveryCompany()
         {
             Name = "Delivery Clab";
             Address = "г. Москва, Невский проспект пр. д.14 к.4";
@@ -16,8 +16,8 @@
 
     static class PickPointContact
     {
-        internal static string PhoneNumber;
-        internal static string Email;
+        public static string PhoneNumber;
+        public static string Email;
 
         static PickPointContact()
         {
@@ -28,9 +28,9 @@
 
     static class Shop
     {
-        internal static string Address;
-        internal static string Email;
-        internal static string PhoneNumber;
+        public static string Address;
+        public static string Email;
+        public static string PhoneNumber;
 
         static Shop()
         {
