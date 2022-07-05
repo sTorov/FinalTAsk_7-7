@@ -23,10 +23,6 @@
         {
             Power = 25;
         }
-        public PowerSupply(int power, string name) : base(name, 1500, "PW-02")
-        {
-            Power = power;
-        }
     }
     class Processor : ComputerPart
     {
@@ -34,10 +30,6 @@
         public Processor() : base ("Processor", 5000, "Intel i3")
         {
             Frequency = 3.1;
-        }
-        public Processor(double frequency, string name) : base (name, 5000, "Intel i3")
-        {
-            Frequency = frequency;
         }
     }
     class HardDrive : ComputerPart

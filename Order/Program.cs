@@ -11,10 +11,8 @@
             MiniITXComputer miniITX = new MiniITXComputer();
             ATXComputer atx = new ATXComputer();
 
-            Processor processor = new Processor(33.33, "PPPPPP");
-            PowerSupply powerSupply = new PowerSupply(150, "QWERTY");
-
-            atx.ChangeComputerPart(powerSupply);
+            Processor processor = new Processor();
+            PowerSupply powerSupply = new PowerSupply();
 
             Client client = new Client("Name", "Surname", "Lastname", "23", "321321");
             Staff staff = new Staff("Name", "Surname", "123123");
@@ -27,8 +25,7 @@
             PickPointOrder<string, ATXComputer> order2 = new(client, atx, "ND-3412", "////", "Address 3");
             HomeOrder<int, PowerSupply> order3 = new(client, powerSupply, 4512, "//..,,,", "ADDress", staff);
 
-
-            order2.Client.Info();
+            order1.ShortInfo();
 
             Console.ReadKey();
         }
