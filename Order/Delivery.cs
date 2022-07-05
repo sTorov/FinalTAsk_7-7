@@ -28,17 +28,13 @@
     class PickPointDelivery : Delivery
     {
         public DateTime StorageEndTime;
+        private PickPointCollection allPickPoint;
 
         public PickPointDelivery(string address) : base (null)
         {
-            
-            for (int i = 0; i < PickPointCollection.collection.Length ; i++)
-            {
-                if (PickPointCollection.collection[i].Address == address)
-                    Address = address;
-            }
-            Address ??= "Пункта выдачи по данному адресу не существует!";
-
+            allPickPoint = new PickPointCollection();
+            Address = allPickPoint[address];
+            Address ??= "Пункта выдачи с таким адресом не существует";
             StorageEndTime = OrderDate.AddDays(5);
         }       
 
@@ -61,23 +57,41 @@
     }
     class PickPointCollection
     {
-        static public PickPoint[] collection = new PickPoint[]
+        private PickPoint[] points;
+        public int Length { get; }
+        
+        public PickPointCollection()
         {
-                new PickPoint { Address = "Address 1" },
-                new PickPoint { Address = "Address 2" },
-                new PickPoint { Address = "Address 3" },
-                new PickPoint { Address = "Address 4" },
-                new PickPoint { Address = "Address 5" }
-        };
-        public PickPoint this[string address]
+            points  = new PickPoint[]
+            {
+                    new PickPoint { Address = "Address 1" },
+                    new PickPoint { Address = "Address 2" },
+                    new PickPoint { Address = "Address 3" },
+                    new PickPoint { Address = "Address 4" },
+                    new PickPoint { Address = "Address 5" }
+            };
+            
+            Length = points.Length;
+        }
+        public string this[string address]
         {
             get
             {
-                for (int i = 0; i < collection.Length; i++)
+                for (int i = 0; i < points.Length; i++)
                 {
-                    if (collection[i].Address == address)
-                        return collection[i];
+                    if (points[i].Address == address)
+                        return points[i].Address;
                 }
+
+                return null;
+            }
+        }
+        public string this[int index]
+        {
+            get
+            {
+                if (index >= 0 && index < points.Length)
+                    return points[index].Address;
 
                 return null;
             }

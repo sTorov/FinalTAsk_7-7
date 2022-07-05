@@ -83,9 +83,11 @@
         }
         public void GetAllPickPoint()
         {
+            PickPointCollection collection = new PickPointCollection();
+
             Console.WriteLine("------------------------------Адреса пунктов выдачи--------------------------------");
-            for (int i = 0; i < PickPointCollection.collection.Length; i++)
-                Console.WriteLine(PickPointCollection.collection[i].Address);
+            for (int i = 0; i < collection.Length; i++)
+                Console.WriteLine(collection[i]);
         }
     }
     class ShopDeliveryOrder<TNumber, TProdact> : Order<ShopDelivery, TNumber, TProdact> where TProdact : Product

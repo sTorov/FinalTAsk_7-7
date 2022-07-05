@@ -23,10 +23,12 @@
             ShopDelivery shop = new ShopDelivery();
 
             ShopDeliveryOrder<int, Processor> order1 = new (client, processor, 4431, "......");
-            PickPointDeliveryOrder<string, ATXComputer> order2 = new(client, atx, "123123", "ND-3412", "////");
-            HomeDeliveryOrder<int, PowerSupply> order3 = new(client, powerSupply, "ADDres" , 4512, "//..,,,", staff); 
+            PickPointDeliveryOrder<string, ATXComputer> order2 = new(client, atx, "Address 3", "ND-3412", "////");
+            HomeDeliveryOrder<int, PowerSupply> order3 = new(client, powerSupply, "ADDres" , 4512, "//..,,,", staff);
 
-            order1.
+            //string asd = PickPointCollection.collection["asd"];
+
+            order2.GetAllPickPoint();
 
             Console.ReadKey();
         }
