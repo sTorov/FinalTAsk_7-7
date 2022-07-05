@@ -14,18 +14,22 @@
             Processor processor = new Processor();
             PowerSupply powerSupply = new PowerSupply();
 
-            Client client = new Client("Name", "Surname", "Lastname", "23", "321321");
-            Staff staff = new Staff("Name", "Surname", "123123");
+            Client client1 = new Client("Dima", "Ivanov", "Ivanovich", "12", "-321321");
+            Client client2 = new Client("Ivan", "Petrov", null, "23", "121212");
+            Client client3 = new Client("Anton", null, null, "22 age", "111111");
 
-            HomeDelivery home = new HomeDelivery("DDD", staff);
+            Staff staff1 = new Staff("Vasya", "Iridin", "123123");
+            Staff staff2 = new Staff("Name", "Surname", "123123a");
+
+            HomeDelivery home = new HomeDelivery("DDD", staff2);
             PickPointDelivery pickPoint = new PickPointDelivery("Address 3");
             ShopDelivery shop = new ShopDelivery();
 
-            ShopOrder<int, Processor> order1 = new (client, processor, 4431, "......");
-            PickPointOrder<string, ATXComputer> order2 = new(client, atx, "ND-3412", "////", "Address 3");
-            HomeOrder<int, PowerSupply> order3 = new(client, powerSupply, 4512, "//..,,,", "ADDress", staff);
+            ShopOrder<int, Processor> order1 = new (client1, processor, 4431, "......");
+            PickPointOrder<string, ATXComputer> order2 = new(client2, atx, "ND-3412", "////", "Address 3");
+            HomeOrder<int, PowerSupply> order3 = new(client3, powerSupply, 4512, "//..,,,", "ADDress", staff2);
 
-            order1.ShortInfo();
+            order3.Delivery.Courier.Info();
 
             Console.ReadKey();
         }

@@ -4,7 +4,9 @@
     {
         protected string FirstName;
         protected string SecondName;
-        protected string PhoneNumber;
+        protected string phoneNumber;
+        protected abstract string PhoneNumber { get; set; }
+        
        
         public Person(string name, string surname, string number)
         {
@@ -22,8 +24,42 @@
 
     class Client : Person
     {
-        protected string Age;
         protected string LastName;
+        private string age;
+        protected string Age 
+        {
+            get { return age; } 
+            set
+            {
+                bool conv = int.TryParse(value, out int result);
+                if (conv)
+                {
+                    if (result < 18)
+                    {
+                        Console.WriteLine($"Заказчик {SecondName ?? "(Фамилия не указана)"} {FirstName ?? "(Имя не указано)"}\nВозраст заказчика менее 18\n");
+                        age = value;
+                    }
+                    else
+                        age = value;
+                }
+                else
+                    Console.WriteLine($"Заказчик {SecondName ?? "(Фамилия не указана)"} {FirstName ?? "(Имя не указано)"}\nНекоректное значение возраста\n");
+                
+            }
+        }
+
+        protected override string PhoneNumber
+        {
+            get { return phoneNumber; }
+            set
+            {
+                bool conv = uint.TryParse(value, out uint result);
+                if (!conv)
+                    Console.WriteLine($"Заказчик {SecondName ?? "(Фамилия не указана)"} {FirstName ?? "(Имя не указано)"}\nНекорректный ввод номера телефона\n");
+                else
+                    phoneNumber = value;
+            }
+        }
 
         public Client(string name, string surname, string lastname, string age, string number) : base (name, surname, number) 
         {
@@ -42,6 +78,18 @@
     }
     class Staff : Person 
     {
+        protected override string PhoneNumber
+        {
+            get { return phoneNumber; }
+            set
+            {
+                bool conv = uint.TryParse(value, out uint result);
+                if (!conv)
+                    Console.WriteLine($"Персонал {SecondName ?? "(Фамилия не указана)"} {FirstName ?? "(Имя не указано)"}\nНекорректный ввод номера телефона\n");
+                else
+                    phoneNumber = value;
+            }
+        }
         public Staff(string name, string surname, string number) : base(name, surname, number) { }
 
         public override void Info()
