@@ -75,6 +75,11 @@
             Console.WriteLine($"Возраст:\t\t{Age ?? "Нет данных"}");
             Console.WriteLine($"Номер телефона:\t\t{PhoneNumber ?? "Нет данных"}");
         }
+
+        public string GetFullName()
+        {
+            return FirstName?.Initial() + LastName?.Initial() + " " + (SecondName ?? "Фамилия не указана");
+        }
     }
     class Staff : Person 
     {

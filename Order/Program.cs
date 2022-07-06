@@ -16,7 +16,7 @@
 
             Client client1 = new Client("Dima", "Ivanov", "Ivanovich", "12", "-321321");
             Client client2 = new Client("Ivan", "Petrov", null, "23", "121212");
-            Client client3 = new Client("Anton", null, null, "22 age", "111111");
+            Client client3 = new Client("Anton", null, "", "22 age", "111111");
 
             Staff staff1 = new Staff("Vasya", "Iridin", "123123");
             Staff staff2 = new Staff("Name", "Surname", "123123a");
@@ -38,6 +38,11 @@
             AllOrders or2 = collection[12];
 
             PickPointOrder pickOr = (PickPointOrder)or;
+
+
+            string fullName = client1.GetFullName();
+            string fullName2 = client2.GetFullName();
+            string fullName3 = client3.GetFullName();
 
             Console.ReadKey();
         }
