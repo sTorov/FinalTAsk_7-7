@@ -80,6 +80,16 @@
         {
             return FirstName?.Initial() + LastName?.Initial() + " " + (SecondName ?? "Фамилия не указана");
         }
+
+        public string GetAge()
+        {
+            return Age;
+        }
+
+        public string GetPhoneNumber()
+        {
+            return PhoneNumber;
+        }
     }
     class Staff : Person 
     {

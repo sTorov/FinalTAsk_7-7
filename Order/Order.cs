@@ -20,6 +20,11 @@
             Client = client;
             Description = description;
         }
+        public void ShortInfo()
+        {
+            Console.WriteLine($"Заказ\t№{Number}\tСтатус:{Status}");
+            Console.WriteLine($"Описание:\n {Description}");
+        }
     }
 
     abstract class Order<TDelivery, TProduct> : AllOrders
@@ -41,11 +46,15 @@
         public virtual void DisplayOrderTime() => Console.WriteLine($"Дата оформления заказа: {Delivery.OrderDate}");
         public void DisplayAddress() => Console.WriteLine(Delivery.Address);
         public void ChangeStatus(OrderStatus status) => Status = status;
-        public void ShortInfo()
+        public void DisplayFullInfo()
         {
-            Console.WriteLine($"Заказ {Number}\n");
-            Console.WriteLine($"Товар:\n{Prodact?.Name ?? "Нет данных"} {Prodact?.Model ?? "Нет данных"}\n");
-            Console.WriteLine($"Описание:\n {Description}");
+            Console.WriteLine($"------------------Информация о заказе № {Number}--------------------");
+            Console.WriteLine($"Заказчик: {Client?.GetFullName() ?? "Нет данных"}\t\tВозраст{Client?.GetAge() ?? "Нет данных"}");
+            Console.WriteLine($"Номер телефона заказчика:\t{Client?.GetPhoneNumber() ?? "Нет данных"}");
+            Console.WriteLine($"Тип доставки: {Delivery.DeliveryType}\t\tСтатус: {Status}");
+            Console.WriteLine($"Описание доставки:\n{Description}");
+            Console.WriteLine($"Товар: {Prodact?.Name ?? "Нет данных"}\t\tМодель: {Prodact?.Model ?? "Нет данных"}\tЦена: {Prodact?.Cost ?? default}");
+            Console.WriteLine($"Описание товара:");
         }
     }
 

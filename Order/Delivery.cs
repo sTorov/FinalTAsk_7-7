@@ -4,6 +4,7 @@
     {
         public string Address { get; protected set; }
         public DateTime OrderDate { get; }
+        public DeliveryType DeliveryType { get; protected set; }
 
         public Delivery (string address)
         {
@@ -12,6 +13,13 @@
         }
 
         public abstract void CompanyInfo();
+    }
+
+    enum DeliveryType
+    {
+        Home = 0,
+        PickPoint,
+        Shop
     }
 
     class HomeDelivery : Delivery
@@ -23,6 +31,7 @@
         {
             Courier = courier;
             TimeOfDelivery = OrderDate.AddDays(1);
+            DeliveryType = DeliveryType.Home;
         }
 
         public override void CompanyInfo()
@@ -93,6 +102,7 @@
             Address = allPickPoint[address];
             Address ??= "Пункта выдачи с таким адресом не существует";
             StorageEndTime = OrderDate.AddDays(5);
+            DeliveryType = DeliveryType.PickPoint;
         }
 
         public override void CompanyInfo()
@@ -118,6 +128,7 @@
         public ShopDelivery() : base (Shop.Address)
         {
             StorageEndTime = OrderDate.AddDays(3);
+            DeliveryType = DeliveryType.Shop;
         }
 
         public override void CompanyInfo()

@@ -26,19 +26,19 @@
             HomeOrder<PowerSupply> order3 = new(client3, powerSupply, 4512, "//..,,,", "ADDress", staff2);
             HomeOrder<PowerSupply> order4 = new(client3, powerSupply, 123, "//..,,,", "ADDress", staff2);
 
-            order3.Delivery.Courier.Info();
-
             OrderCollection collection = new();
             collection.AddOrder<PickPointDelivery, ATXComputer>(order2, order3);
-            
 
             OrderCollection collection2 = new();
             collection2.AddOrder(order1, order2, order3, order4);
 
-            AllOrders or = collection2[12];
-            HomeOrder<ATXComputer> homeOrder = (HomeOrder<ATXComputer>)collection[12];
+            Console.WriteLine();
+            collection[12].ShortInfo();
 
-            
+            AllOrders or = collection2[12];
+            PickPointOrder<ATXComputer> homeOrder = (PickPointOrder<ATXComputer>)collection[12];
+
+            homeOrder.DisplayFullInfo();
 
             string fullName = client1.GetFullName();
             string fullName2 = client2.GetFullName();
