@@ -7,18 +7,17 @@
         Received
     }
     
-    abstract class Order<TDelivery, TNumber, TProdact> 
+    abstract class Order<TDelivery, TNumber> 
         where TDelivery : Delivery
-        where TProdact : Product
     {
         public TDelivery Delivery { get; protected set; }
-        public TProdact Prodact { get; }
+        public Product Prodact { get; }
         public Client Client { get; }
         public TNumber Number { get; }
         public string Description { get; }
         public OrderStatus Status { get; protected set; }
         
-        public Order(Client client, TProdact prodact, TNumber number, string description)
+        public Order(Client client, Product prodact, TNumber number, string description)
         {
             Client = client;
             Prodact = prodact;
@@ -38,10 +37,45 @@
         }
     }
 
-    class HomeOrder<TNumber, TProdact> : Order<HomeDelivery, TNumber, TProdact>
+    class OrderCollection<TDelivery, TNumber, TProdact>
+        where TDelivery : Delivery
+        where TNumber : new()
         where TProdact : Product
     {
-        public HomeOrder(Client client, TProdact prodact, TNumber number, string description, string address, Staff courier) : base (client, prodact, number, description)
+        //private HomeOrder<TNumber, TProdact>[] homeDelivCollection;
+        //private PickPointOrder<TNumber,TProdact>[] pointDelivCollection;
+        //private ShopOrder<TNumber, TProdact>[] shopDelivCollection;
+
+        public OrderCollection()
+        {
+            //homeDelivCollection = new HomeOrder<TNumber, TProdact>[0];
+            //pointDelivCollection = new PickPointOrder<TNumber, TProdact>[0];
+            //shopDelivCollection = new ShopOrder<TNumber, TProdact>[0];
+        }
+
+        //public void AddOrder(params object[] order)
+        //{
+        //    for (int i = 0; i < order.Length; i++)
+        //    {
+        //        if (order[i] is HomeOrder<TNumber, TProdact> convOrder)
+        //        {
+        //            convOrder = (HomeOrder<TNumber, TProdact>)order[i];
+        //            var newCollection = new HomeOrder<TNumber, TProdact>[homeDelivCollection.Length + 1];
+
+        //            for (int j = 0; j < newCollection.Length; j++)
+        //                newCollection[i] = homeDelivCollection[i];
+
+        //            newCollection[newCollection.Length - 1] = convOrder;
+
+        //            homeDelivCollection = newCollection;
+        //        }
+        //    }           
+        //}
+    }
+
+    class HomeOrder<TNumber> : Order<HomeDelivery, TNumber>
+    {
+        public HomeOrder(Client client, Product prodact, TNumber number, string description, string address, Staff courier) : base (client, prodact, number, description)
         {
             Delivery = new HomeDelivery(address, courier);
         }
@@ -52,10 +86,9 @@
             Console.WriteLine($"Приблизительное время доставки: {Delivery.TimeOfDelivery}");
         }
     }
-    class PickPointOrder<TNumber, TProdact> : Order<PickPointDelivery, TNumber, TProdact>
-        where TProdact : Product
+    class PickPointOrder<TNumber> : Order<PickPointDelivery, TNumber>
     {
-        public PickPointOrder(Client client, TProdact prodact, TNumber number, string description, string address) : base(client, prodact, number, description)
+        public PickPointOrder(Client client, Product prodact, TNumber number, string description, string address) : base(client, prodact, number, description)
         {
             Delivery = new PickPointDelivery(address);
         }
@@ -67,10 +100,9 @@
         }
 
     }
-    class ShopOrder<TNumber, TProdact> : Order<ShopDelivery, TNumber, TProdact>
-        where TProdact : Product
+    class ShopOrder<TNumber> : Order<ShopDelivery, TNumber>
     {
-        public ShopOrder(Client client, TProdact prodact, TNumber number, string description) : base(client, prodact, number, description)
+        public ShopOrder(Client client, Product prodact, TNumber number, string description) : base(client, prodact, number, description)
         {
             Delivery = new ShopDelivery();
         }

@@ -25,11 +25,15 @@
             PickPointDelivery pickPoint = new PickPointDelivery("Address 3");
             ShopDelivery shop = new ShopDelivery();
 
-            ShopOrder<int, Processor> order1 = new (client1, processor, 4431, "......");
-            PickPointOrder<string, ATXComputer> order2 = new(client2, atx, "ND-3412", "////", "Address 3");
-            HomeOrder<int, PowerSupply> order3 = new(client3, powerSupply, 4512, "//..,,,", "ADDress", staff2);
+            ShopOrder<int> order1 = new (client1, processor, 4431, "......");
+            PickPointOrder<string> order2 = new(client2, atx, "ND-3412", "////", "Address 3");
+            HomeOrder<int> order3 = new(client3, powerSupply, 4512, "//..,,,", "ADDress", staff2);
 
             order3.Delivery.Courier.Info();
+
+            OrderCollection<Delivery, object, Product> collection = new();
+
+            //collection.AddOrder(order1, order2, order3);
 
             Console.ReadKey();
         }
