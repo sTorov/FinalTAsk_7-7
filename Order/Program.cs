@@ -21,19 +21,23 @@
             Staff staff1 = new Staff("Vasya", "Iridin", "123123");
             Staff staff2 = new Staff("Name", "Surname", "123123a");
 
-            HomeDelivery home = new HomeDelivery("DDD", staff2);
-            PickPointDelivery pickPoint = new PickPointDelivery("Address 3");
-            ShopDelivery shop = new ShopDelivery();
-
-            ShopOrder<int> order1 = new (client1, processor, 4431, "......");
-            PickPointOrder<string> order2 = new(client2, atx, "ND-3412", "////", "Address 3");
-            HomeOrder<int> order3 = new(client3, powerSupply, 4512, "//..,,,", "ADDress", staff2);
+            ShopOrder order1 = new (client1, processor, 4431, "......");
+            PickPointOrder order2 = new(client2, atx, 12, "////", "Address 3");
+            HomeOrder order3 = new(client3, powerSupply, 4512, "//..,,,", "ADDress", staff2);
+            HomeOrder order4 = new(client3, powerSupply, 123, "//..,,,", "ADDress", staff2);
 
             order3.Delivery.Courier.Info();
 
-            OrderCollection<Delivery, object, Product> collection = new();
+            OrderCollection collection = new();
+            collection.AddOrder<HomeDelivery>(order1, order2, order3);
 
-            //collection.AddOrder(order1, order2, order3);
+            OrderCollection collection2 = new();
+            collection2.AddOrder(order1, order2, order3, order4);
+
+            AllOrders or = collection2[12];
+            AllOrders or2 = collection[12];
+
+            PickPointOrder pickOr = (PickPointOrder)or;
 
             Console.ReadKey();
         }

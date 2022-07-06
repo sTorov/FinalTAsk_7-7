@@ -6,18 +6,22 @@
         Awaiting,
         Received
     }
-    
-    abstract class Order<TDelivery, TNumber> 
+
+    abstract class AllOrders 
+    {
+        public uint Number { get; protected set; }
+    }
+
+    abstract class Order<TDelivery> : AllOrders
         where TDelivery : Delivery
     {
         public TDelivery Delivery { get; protected set; }
         public Product Prodact { get; }
         public Client Client { get; }
-        public TNumber Number { get; }
         public string Description { get; }
         public OrderStatus Status { get; protected set; }
         
-        public Order(Client client, Product prodact, TNumber number, string description)
+        public Order(Client client, Product prodact, uint number, string description)
         {
             Client = client;
             Prodact = prodact;
@@ -37,45 +41,69 @@
         }
     }
 
-    class OrderCollection<TDelivery, TNumber, TProdact>
-        where TDelivery : Delivery
-        where TNumber : new()
-        where TProdact : Product
+    class OrderCollection
     {
-        //private HomeOrder<TNumber, TProdact>[] homeDelivCollection;
-        //private PickPointOrder<TNumber,TProdact>[] pointDelivCollection;
-        //private ShopOrder<TNumber, TProdact>[] shopDelivCollection;
+        public AllOrders[] Orders { get; protected set; }
 
         public OrderCollection()
         {
-            //homeDelivCollection = new HomeOrder<TNumber, TProdact>[0];
-            //pointDelivCollection = new PickPointOrder<TNumber, TProdact>[0];
-            //shopDelivCollection = new ShopOrder<TNumber, TProdact>[0];
+            Orders = new AllOrders[0];
         }
 
-        //public void AddOrder(params object[] order)
-        //{
-        //    for (int i = 0; i < order.Length; i++)
-        //    {
-        //        if (order[i] is HomeOrder<TNumber, TProdact> convOrder)
-        //        {
-        //            convOrder = (HomeOrder<TNumber, TProdact>)order[i];
-        //            var newCollection = new HomeOrder<TNumber, TProdact>[homeDelivCollection.Length + 1];
+        public AllOrders this[uint number]
+        {
+            get
+            {
+                for(int i = 0; i < Orders.Length; i++)
+                    if (Orders[i].Number == number)
+                        return Orders[i];
 
-        //            for (int j = 0; j < newCollection.Length; j++)
-        //                newCollection[i] = homeDelivCollection[i];
+                return null;
+            }
+        }
 
-        //            newCollection[newCollection.Length - 1] = convOrder;
+        public void AddOrder<TDelivery>(params AllOrders[] order) where TDelivery : Delivery
+        {
+            for (int i = 0; i < order.Length; i++)
+            {
+                if (order[i] is Order<TDelivery>)
+                {
+                    var newCollection = new AllOrders[Orders.Length + 1];
 
-        //            homeDelivCollection = newCollection;
-        //        }
-        //    }           
-        //}
+                    if (Orders.Length != 0)
+                    {
+                        for (int j = 0; j < Orders.Length; j++)
+                            newCollection[j] = Orders[j];
+                    }
+
+                    newCollection[newCollection.Length - 1] = (Order<TDelivery>)order[i];
+
+                    Orders = newCollection;
+                }
+            }
+        }
+        public void AddOrder(params AllOrders[] order)
+        {
+            for (int i = 0; i < order.Length; i++)
+            {
+                var newCollection = new AllOrders[Orders.Length + 1];
+
+                if (Orders.Length != 0)
+                {
+                    for (int j = 0; j < Orders.Length; j++)
+                        newCollection[j] = Orders[j];
+                }
+
+                newCollection[newCollection.Length - 1] = order[i];
+
+                Orders = newCollection;
+            }
+        }
     }
 
-    class HomeOrder<TNumber> : Order<HomeDelivery, TNumber>
+    class HomeOrder : Order<HomeDelivery>
     {
-        public HomeOrder(Client client, Product prodact, TNumber number, string description, string address, Staff courier) : base (client, prodact, number, description)
+        public HomeOrder(Client client, Product prodact, uint number, string description, string address, Staff courier) : base (client, prodact, number, description)
         {
             Delivery = new HomeDelivery(address, courier);
         }
@@ -86,9 +114,9 @@
             Console.WriteLine($"Приблизительное время доставки: {Delivery.TimeOfDelivery}");
         }
     }
-    class PickPointOrder<TNumber> : Order<PickPointDelivery, TNumber>
+    class PickPointOrder : Order<PickPointDelivery>
     {
-        public PickPointOrder(Client client, Product prodact, TNumber number, string description, string address) : base(client, prodact, number, description)
+        public PickPointOrder(Client client, Product prodact, uint number, string description, string address) : base(client, prodact, number, description)
         {
             Delivery = new PickPointDelivery(address);
         }
@@ -100,9 +128,9 @@
         }
 
     }
-    class ShopOrder<TNumber> : Order<ShopDelivery, TNumber>
+    class ShopOrder : Order<ShopDelivery>
     {
-        public ShopOrder(Client client, Product prodact, TNumber number, string description) : base(client, prodact, number, description)
+        public ShopOrder(Client client, Product prodact, uint number, string description) : base(client, prodact, number, description)
         {
             Delivery = new ShopDelivery();
         }
