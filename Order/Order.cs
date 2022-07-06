@@ -10,18 +10,26 @@
     abstract class AllOrders 
     {
         public uint Number { get; protected set; }
+        public Client Client { get; protected set; }
+        public string Description { get; protected set; }
+        public OrderStatus Status { get; protected set; }
+
+        public AllOrders(Client client, uint number,  string description)
+        {
+            Number = number;
+            Client = client;
+            Description = description;
+        }
     }
 
-    abstract class Order<TDelivery> : AllOrders
+    abstract class Order<TDelivery, TProduct> : AllOrders
         where TDelivery : Delivery
+        where TProduct : Product
     {
         public TDelivery Delivery { get; protected set; }
-        public Product Prodact { get; }
-        public Client Client { get; }
-        public string Description { get; }
-        public OrderStatus Status { get; protected set; }
+        public TProduct Prodact { get; }
         
-        public Order(Client client, Product prodact, uint number, string description)
+        public Order(Client client, TProduct prodact, uint number, string description) : base (client, number, description)
         {
             Client = client;
             Prodact = prodact;
@@ -62,11 +70,13 @@
             }
         }
 
-        public void AddOrder<TDelivery>(params AllOrders[] order) where TDelivery : Delivery
+        public void AddOrder<TDelivery, TProduct>(params AllOrders[] order) 
+            where TDelivery : Delivery
+            where TProduct : Product
         {
             for (int i = 0; i < order.Length; i++)
             {
-                if (order[i] is Order<TDelivery>)
+                if (order[i] is Order<TDelivery, TProduct>)
                 {
                     var newCollection = new AllOrders[Orders.Length + 1];
 
@@ -76,7 +86,7 @@
                             newCollection[j] = Orders[j];
                     }
 
-                    newCollection[newCollection.Length - 1] = (Order<TDelivery>)order[i];
+                    newCollection[newCollection.Length - 1] = (Order<TDelivery, TProduct>)order[i];
 
                     Orders = newCollection;
                 }
@@ -101,9 +111,10 @@
         }
     }
 
-    class HomeOrder : Order<HomeDelivery>
+    class HomeOrder<TProduct> : Order<HomeDelivery, TProduct>
+        where TProduct : Product
     {
-        public HomeOrder(Client client, Product prodact, uint number, string description, string address, Staff courier) : base (client, prodact, number, description)
+        public HomeOrder(Client client, TProduct prodact, uint number, string description, string address, Staff courier) : base (client, prodact, number, description)
         {
             Delivery = new HomeDelivery(address, courier);
         }
@@ -114,9 +125,10 @@
             Console.WriteLine($"Приблизительное время доставки: {Delivery.TimeOfDelivery}");
         }
     }
-    class PickPointOrder : Order<PickPointDelivery>
+    class PickPointOrder<TProduct> : Order<PickPointDelivery, TProduct>
+        where TProduct: Product
     {
-        public PickPointOrder(Client client, Product prodact, uint number, string description, string address) : base(client, prodact, number, description)
+        public PickPointOrder(Client client, TProduct prodact, uint number, string description, string address) : base(client, prodact, number, description)
         {
             Delivery = new PickPointDelivery(address);
         }
@@ -128,9 +140,10 @@
         }
 
     }
-    class ShopOrder : Order<ShopDelivery>
+    class ShopOrder<TProduct> : Order<ShopDelivery, TProduct>
+        where TProduct : Product
     {
-        public ShopOrder(Client client, Product prodact, uint number, string description) : base(client, prodact, number, description)
+        public ShopOrder(Client client, TProduct prodact, uint number, string description) : base(client, prodact, number, description)
         {
             Delivery = new ShopDelivery();
         }

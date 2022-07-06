@@ -21,24 +21,24 @@
             Staff staff1 = new Staff("Vasya", "Iridin", "123123");
             Staff staff2 = new Staff("Name", "Surname", "123123a");
 
-            ShopOrder order1 = new (client1, processor, 4431, "......");
-            PickPointOrder order2 = new(client2, atx, 12, "////", "Address 3");
-            HomeOrder order3 = new(client3, powerSupply, 4512, "//..,,,", "ADDress", staff2);
-            HomeOrder order4 = new(client3, powerSupply, 123, "//..,,,", "ADDress", staff2);
+            ShopOrder<Processor> order1 = new (client1, processor, 4431, "......");
+            PickPointOrder<ATXComputer> order2 = new(client2, atx, 12, "////", "Address 3");
+            HomeOrder<PowerSupply> order3 = new(client3, powerSupply, 4512, "//..,,,", "ADDress", staff2);
+            HomeOrder<PowerSupply> order4 = new(client3, powerSupply, 123, "//..,,,", "ADDress", staff2);
 
             order3.Delivery.Courier.Info();
 
             OrderCollection collection = new();
-            collection.AddOrder<HomeDelivery>(order1, order2, order3);
+            collection.AddOrder<PickPointDelivery, ATXComputer>(order2, order3);
+            
 
             OrderCollection collection2 = new();
             collection2.AddOrder(order1, order2, order3, order4);
 
             AllOrders or = collection2[12];
-            AllOrders or2 = collection[12];
+            HomeOrder<ATXComputer> homeOrder = (HomeOrder<ATXComputer>)collection[12];
 
-            PickPointOrder pickOr = (PickPointOrder)or;
-
+            
 
             string fullName = client1.GetFullName();
             string fullName2 = client2.GetFullName();

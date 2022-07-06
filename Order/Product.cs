@@ -78,9 +78,9 @@
         public Corps(string name, double cost, string model) : base (name, cost, model) { }
     }
 
-    class ATX : Corps
+    class ATXCorps : Corps
     {
-        public ATX() : base ("Corpus", 3500, "ATX Corps")
+        public ATXCorps() : base ("Corpus", 3500, "ATX Corps")
         {
             MotherBoard = MotherBoardFormFactor.ATX;
             Dimensions = new Dimensions(210, 180, 220);
@@ -88,9 +88,9 @@
         }
     }
 
-    class MiniITX : Corps
+    class MiniITXCorps : Corps
     {
-        public MiniITX() : base ("Corpus", 2500, "MiniITX Corps")
+        public MiniITXCorps() : base ("Corpus", 2500, "MiniITX Corps")
         {
             MotherBoard = MotherBoardFormFactor.MiniITX;
             Dimensions = new Dimensions(185, 274, 360);
@@ -116,7 +116,7 @@
 
     }
 
-    class ATXComputer : Computer<ATX> 
+    class ATXComputer : Computer<ATXCorps> 
     {
         public ATXComputer() : base("ATXComp", 25000, "ATX-2020") { }
         public override void ChangeComputerPart<TComputerPart>(TComputerPart newPart) 
@@ -124,7 +124,7 @@
             base.ChangeComputerPart<TComputerPart>(newPart);
         }
     }
-    class MiniITXComputer : Computer<MiniITX>
+    class MiniITXComputer : Computer<MiniITXCorps>
     {
         public MiniITXComputer() : base("MiniITXComp", 22000, "ITX-2021") { }
         public override void ChangeComputerPart<TComputerPart>(TComputerPart newPart) 
