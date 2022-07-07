@@ -1,5 +1,9 @@
 ﻿namespace Order
 {
+    using Person;
+    using Delivery;
+    using Product;
+
     enum OrderStatus
     {
         Canceled = 0,
@@ -82,24 +86,23 @@
             return Orders;
         }
 
-        public Order<TDelivery, TProduct>[] GetOrderCollection<TDelivery, TProduct>(params AllOrders[] order) 
-            where TDelivery : Delivery
-            where TProduct : Product
+        public TOrder[] GetOrderCollection<TOrder>(params AllOrders[] order) 
+            where TOrder : AllOrders
         {
-            var collection = new Order<TDelivery, TProduct>[0];
+            var collection = new TOrder[0];
 
             for (int i = 0; i < order.Length; i++)
             {
-                if (order[i] is Order<TDelivery,TProduct>)
+                if (order[i] is TOrder)
                 {
-                    var newCollection = new Order<TDelivery, TProduct>[collection.Length + 1];
+                    var newCollection = new TOrder[collection.Length + 1];
                     
                     if(collection.Length != 0)
                     {
                         for (int j = 0; j < collection.Length; j++)
                             newCollection[j] = collection[j];
                     }
-                    newCollection[newCollection.Length - 1] = (Order<TDelivery,TProduct>)order[i];
+                    newCollection[newCollection.Length - 1] = (TOrder)order[i];
 
                     collection = newCollection;
                 }

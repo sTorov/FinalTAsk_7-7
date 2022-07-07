@@ -1,4 +1,4 @@
-﻿namespace Order
+﻿namespace Company
 {
     static class DeliveryCompany
     {

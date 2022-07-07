@@ -1,4 +1,4 @@
-﻿namespace Order
+﻿namespace Exceptions
 {
     static class StringExtensions
     {

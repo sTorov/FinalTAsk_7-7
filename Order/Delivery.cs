@@ -1,5 +1,8 @@
-﻿namespace Order
+﻿namespace Delivery
 {
+    using Person;
+    using Company;
+
     abstract class Delivery
     {
         public string Address { get; protected set; }

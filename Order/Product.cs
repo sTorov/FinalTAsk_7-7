@@ -1,4 +1,4 @@
-﻿namespace Order
+﻿namespace Product
 {
     enum ProductType
     {

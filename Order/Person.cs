@@ -1,5 +1,7 @@
-﻿namespace Order
+﻿namespace Person
 {
+    using Exceptions;
+
     abstract class Person
     {
         protected string FirstName;
