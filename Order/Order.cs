@@ -132,6 +132,8 @@
         {
             base.DisplayFullInfo();
             Console.WriteLine();
+            Console.WriteLine($"Дата оформления: {Delivery.OrderDate}\tПриблизительная дата доставки: {Delivery.TimeOfDelivery}");
+            Console.WriteLine();
             Delivery.Courier.Info();
         }
     }
@@ -148,7 +150,11 @@
             base.DisplayOrderTime();
             Console.WriteLine($"Дата окончания хранения: {Delivery.StorageEndTime}");
         }
-
+        public override void DisplayFullInfo()
+        {
+            base.DisplayFullInfo();
+            Console.WriteLine($"\nДата оформления: {Delivery.OrderDate}\tЗаказ будет отменён: {Delivery.StorageEndTime}");
+        }
     }
     class ShopOrder<TProduct> : Order<ShopDelivery, TProduct>
         where TProduct : Product
@@ -163,6 +169,10 @@
             base.DisplayOrderTime();
             Console.WriteLine($"Дата отмены заказа: {Delivery.StorageEndTime}");
         }
-
+        public override void DisplayFullInfo()
+        {
+            base.DisplayFullInfo();
+            Console.WriteLine($"\nДата оформления: {Delivery.OrderDate}\tЗаказ будет отменён: {Delivery.StorageEndTime}");
+        }
     }
 }

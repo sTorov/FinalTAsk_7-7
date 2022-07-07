@@ -23,7 +23,7 @@
 
             ShopOrder<Processor> order1 = new (client1, processor, 4431, "......");
             PickPointOrder<ATXComputer> order2 = new(client2, atx, 12, "////", "Address 3");
-            HomeOrder<PowerSupply> order3 = new(client3, powerSupply, 4512, "//..,,,", "ADDress", staff2);
+            HomeOrder<PowerSupply> order3 = new(client3, powerSupply, 4512, "//..,,,", "ADDress", staff1);
             HomeOrder<PowerSupply> order4 = new(client3, powerSupply, 123, "//..,,,", "ADDress", staff2);
 
             Console.Clear();
@@ -34,8 +34,14 @@
 
             Console.WriteLine();
 
-            var orders = collection.GetOrderCollection(order3, order4);
-            orders[1].DisplayFullInfo();
+            var orders = collection.GetOrderCollection(order3);
+            orders[0].DisplayFullInfo();
+            Console.WriteLine();
+            var orders2 = collection.GetOrderCollection(order2);
+            orders2[0].DisplayFullInfo();
+            Console.WriteLine();
+            var orders3 = collection.GetOrderCollection(order1);
+            orders3[0].DisplayFullInfo();
 
 
 

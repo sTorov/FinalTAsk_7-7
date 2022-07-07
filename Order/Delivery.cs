@@ -3,13 +3,13 @@
     abstract class Delivery
     {
         public string Address { get; protected set; }
-        public DateTime OrderDate { get; }
+        public string OrderDate { get; }
         public DeliveryType DeliveryType { get; protected set; }
 
         public Delivery (string address)
         {
             Address = address;
-            OrderDate = DateTime.Now;
+            OrderDate = DateTime.Now.ToString();
         }
 
         public abstract void CompanyInfo();
@@ -25,12 +25,12 @@
     class HomeDelivery : Delivery
     {
         public Staff Courier { get; }
-        public DateTime TimeOfDelivery { get; }
+        public string TimeOfDelivery { get; }
 
         public HomeDelivery(string address, Staff courier) : base (address) 
         {
             Courier = courier;
-            TimeOfDelivery = OrderDate.AddDays(1);
+            TimeOfDelivery = DateTime.Now.AddDays(1).ToString();
             DeliveryType = DeliveryType.Home;
         }
 
@@ -93,7 +93,7 @@
         }
 
 
-        public DateTime StorageEndTime { get; }
+        public string StorageEndTime { get; }
         private PickPointCollection allPickPoint;
 
         public PickPointDelivery(string address) : base (null)
@@ -101,7 +101,7 @@
             allPickPoint = new PickPointCollection();
             Address = allPickPoint[address];
             Address ??= "Пункта выдачи с таким адресом не существует";
-            StorageEndTime = OrderDate.AddDays(5);
+            StorageEndTime = DateTime.Now.AddDays(5).ToString();
             DeliveryType = DeliveryType.PickPoint;
         }
 
@@ -123,11 +123,11 @@
 
     class ShopDelivery : Delivery
     {
-        public DateTime StorageEndTime { get; }
+        public string StorageEndTime { get; }
 
         public ShopDelivery() : base (Shop.Address)
         {
-            StorageEndTime = OrderDate.AddDays(3);
+            StorageEndTime = DateTime.Now.AddDays(3).ToString();
             DeliveryType = DeliveryType.Shop;
         }
 
