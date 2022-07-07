@@ -46,21 +46,22 @@
         public virtual void DisplayOrderTime() => Console.WriteLine($"Дата оформления заказа: {Delivery.OrderDate}");
         public void DisplayAddress() => Console.WriteLine(Delivery.Address);
         public void ChangeStatus(OrderStatus status) => Status = status;
-        public void DisplayFullInfo()
+        public virtual void DisplayFullInfo()
         {
             Console.WriteLine($"------------------Информация о заказе № {Number}--------------------");
-            Console.WriteLine($"Заказчик: {Client?.GetFullName() ?? "Нет данных"}\t\tВозраст{Client?.GetAge() ?? "Нет данных"}");
+            Console.WriteLine($"Заказчик: {Client?.GetFullName() ?? "Нет данных"}\t\tВозраст {Client?.GetAge() ?? "Нет данных"}");
             Console.WriteLine($"Номер телефона заказчика:\t{Client?.GetPhoneNumber() ?? "Нет данных"}");
             Console.WriteLine($"Тип доставки: {Delivery.DeliveryType}\t\tСтатус: {Status}");
-            Console.WriteLine($"Описание доставки:\n{Description}");
-            Console.WriteLine($"Товар: {Prodact?.Name ?? "Нет данных"}\t\tМодель: {Prodact?.Model ?? "Нет данных"}\tЦена: {Prodact?.Cost ?? default}");
-            Console.WriteLine($"Описание товара:");
+            Console.WriteLine($"\nОписание доставки:\n{Description}\n");
+            Console.WriteLine($"Товар: {Prodact?.Name ?? "Нет данных"}\tМодель: {Prodact?.Model ?? "Нет данных"}\tЦена: {Prodact?.Cost ?? default} Руб");
+            Console.WriteLine($"\nХарактеристики:\n");
+            Prodact.Characteristic();
         }
     }
 
     class OrderCollection
     {
-        public AllOrders[] Orders { get; protected set; }
+        protected AllOrders[] Orders { get; set; }
 
         public OrderCollection()
         {
@@ -79,27 +80,16 @@
             }
         }
 
-        public void AddOrder<TDelivery, TProduct>(params AllOrders[] order) 
+        public Order<TDelivery, TProduct>[] GetOrderCollection<TDelivery, TProduct>(params Order<TDelivery, TProduct>[] order) 
             where TDelivery : Delivery
             where TProduct : Product
         {
+            var newCollection = new Order<TDelivery, TProduct>[order.Length];
+
             for (int i = 0; i < order.Length; i++)
-            {
-                if (order[i] is Order<TDelivery, TProduct>)
-                {
-                    var newCollection = new AllOrders[Orders.Length + 1];
+                newCollection[i] = order[i];
 
-                    if (Orders.Length != 0)
-                    {
-                        for (int j = 0; j < Orders.Length; j++)
-                            newCollection[j] = Orders[j];
-                    }
-
-                    newCollection[newCollection.Length - 1] = (Order<TDelivery, TProduct>)order[i];
-
-                    Orders = newCollection;
-                }
-            }
+            return newCollection;            
         }
         public void AddOrder(params AllOrders[] order)
         {
@@ -118,6 +108,11 @@
                 Orders = newCollection;
             }
         }
+        public void ViewAllOrders()
+        {
+            for(int i = 0; i < Orders.Length; i++)
+                Console.WriteLine($"Заказ №{Orders[i].Number}\t{Orders[i].Status}");
+        }
     }
 
     class HomeOrder<TProduct> : Order<HomeDelivery, TProduct>
@@ -132,6 +127,12 @@
         {
             base.DisplayOrderTime();
             Console.WriteLine($"Приблизительное время доставки: {Delivery.TimeOfDelivery}");
+        }
+        public override void DisplayFullInfo()
+        {
+            base.DisplayFullInfo();
+            Console.WriteLine();
+            Delivery.Courier.Info();
         }
     }
     class PickPointOrder<TProduct> : Order<PickPointDelivery, TProduct>

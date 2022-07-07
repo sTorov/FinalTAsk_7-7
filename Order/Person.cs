@@ -109,7 +109,7 @@
 
         public override void Info()
         {
-            Console.WriteLine("------------------------------Информация о курьере---------------------------------");
+            Console.WriteLine("Информация о курьере:");
             base.Info();
             Console.WriteLine($"Номер телефона:\t\t{PhoneNumber ?? "Нет данных"}");
         }

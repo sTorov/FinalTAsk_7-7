@@ -13,6 +13,7 @@
             Model = model;
         }
 
+        public abstract void Characteristic();
     }
 
     class PowerSupply : ComputerPart
@@ -23,6 +24,7 @@
         {
             Power = 25;
         }
+        public override void Characteristic() => Console.WriteLine($"Мощность блока питания:\t{Power} Вт"); 
     }
     class Processor : ComputerPart
     {
@@ -31,6 +33,7 @@
         {
             Frequency = 3.1;
         }
+        public override void Characteristic() => Console.WriteLine($"Частота процессора:\t{Frequency} ГГц");
     }
     class HardDrive : ComputerPart
     {
@@ -39,10 +42,11 @@
         {
             Memory = 512;
         }
+        public override void Characteristic() => Console.WriteLine($"Память жесткого диска:\t{Memory} Гб");
     }
 
 
-    class ComputerPart : Product
+    abstract class ComputerPart : Product
     {
         public ComputerPart(string name, double cost, string model) : base (name, cost, model) { }
     }
@@ -57,9 +61,9 @@
 
     class Dimensions
     {
-        private int Width;
-        private int Height;
-        private int Length;
+        public int Width { get; }
+        public int Height { get; }
+        public int Length { get; }
 
         public Dimensions(int Width, int Height, int Length)
         {
@@ -86,6 +90,14 @@
             Dimensions = new Dimensions(210, 180, 220);
             CorpsMaterial = "Steel";
         }
+        public override void Characteristic()
+        {
+            Console.WriteLine($"Формфактор:\t\t{MotherBoard}");
+            Console.WriteLine($"Ширина:\t\t\t{Dimensions.Width} мм");
+            Console.WriteLine($"Высота:\t\t\t{Dimensions.Height} мм");
+            Console.WriteLine($"Длина:\t\t\t{Dimensions.Length} мм");
+            Console.WriteLine($"Материал корпуса:\t{CorpsMaterial}");
+        }
     }
 
     class MiniITXCorps : Corps
@@ -95,6 +107,14 @@
             MotherBoard = MotherBoardFormFactor.MiniITX;
             Dimensions = new Dimensions(185, 274, 360);
             CorpsMaterial = "Aluminium";
+        }
+        public override void Characteristic()
+        {
+            Console.WriteLine($"Формфактор:\t{MotherBoard}");
+            Console.WriteLine($"Ширина:\t{Dimensions.Width}");
+            Console.WriteLine($"Высота:\t{Dimensions.Height}");
+            Console.WriteLine($"Длина:\t{Dimensions.Length}");
+            Console.WriteLine($"Материал корпуса:\t{CorpsMaterial}");
         }
     }
 
@@ -123,6 +143,14 @@
         { 
             base.ChangeComputerPart<TComputerPart>(newPart);
         }
+        public override void Characteristic()
+        {
+            powerSupply.Characteristic();
+            processor.Characteristic();
+            hardDrive.Characteristic();
+            corps.Characteristic();
+        }
+
     }
     class MiniITXComputer : Computer<MiniITXCorps>
     {
@@ -131,5 +159,13 @@
         {
             base.ChangeComputerPart<TComputerPart>(newPart);
         }
+        public override void Characteristic()
+        {
+            powerSupply.Characteristic();
+            processor.Characteristic();
+            hardDrive.Characteristic();
+            corps.Characteristic();
+        }
+
     }
 }
