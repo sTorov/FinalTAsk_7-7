@@ -5,44 +5,49 @@
     {
         static void Main(string[] args)
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF7;
-            Console.InputEncoding = System.Text.Encoding.UTF7;
+            //Console.OutputEncoding = System.Text.Encoding.UTF7;
+            //Console.InputEncoding = System.Text.Encoding.UTF7;
 
-            MiniITXComputer miniITX = new MiniITXComputer();
-            ATXComputer atx = new ATXComputer();
+            //MiniITXComputer miniITX = new MiniITXComputer();
+            //ATXComputer atx = new ATXComputer();
 
-            Processor processor = new Processor();
-            PowerSupply powerSupply = new PowerSupply();
+            //Processor processor = new Processor();
+            //PowerSupply powerSupply = new PowerSupply();
 
-            Client client1 = new Client("Dima", "Ivanov", "Ivanovich", "12", "-321321");
-            Client client2 = new Client("Ivan", "Petrov", null, "23", "121212");
-            Client client3 = new Client("Anton", null, "", "22 age", "111111");
+            //Client client1 = new Client("Dima", "Ivanov", "Ivanovich", "12", "321321");
+            //Client client2 = new Client("Ivan", "Petrov", null, "23", "121212");
+            //Client client3 = new Client("", null, "", "22 age", "-111111");
 
-            Staff staff1 = new Staff("Vasya", "Iridin", "123123");
-            Staff staff2 = new Staff("Name", "Surname", "123123a");
+            //Staff staff1 = new Staff("Vasya", "Iridin", "123123");
+            //Staff staff2 = new Staff("Name", "Surname", "123123a");
 
-            ShopOrder<Processor> order1 = new (client1, processor, 4431, "......");
-            PickPointOrder<ATXComputer> order2 = new(client2, atx, 12, "////", "Address 3");
-            HomeOrder<PowerSupply> order3 = new(client3, powerSupply, 4512, "//..,,,", "ADDress", staff1);
-            HomeOrder<PowerSupply> order4 = new(client3, powerSupply, 123, "//..,,,", "ADDress", staff2);
+            //ShopOrder<Processor> order1 = new (client1, processor, 4431, "......");
+            //PickPointOrder<ATXComputer> order2 = new(client2, atx, 12, "////", "Address 3");
+            //HomeOrder<PowerSupply> order3 = new(client3, powerSupply, 4512, "//..,,,", "ADDress", staff1);
+            //HomeOrder<PowerSupply> order4 = new(client3, powerSupply, 123, "//..,,,", "ADDress", staff2);
 
-            Console.Clear();
+            //Console.Clear();
 
-            OrderCollection collection = new();
-            collection.AddOrder(order2, order3, order1, order4);
-            collection.ViewAllOrders();
+            //OrderCollection collection = new();
+            //collection.AddOrder(order2, order3, order1, order4);
+            //collection.ViewAllOrders();
 
-            Console.WriteLine();
+            //Console.WriteLine();
 
-            var orders = collection.GetOrderCollection(order3);
-            orders[0].DisplayFullInfo();
-            Console.WriteLine();
-            var orders2 = collection.GetOrderCollection(order2);
-            orders2[0].DisplayFullInfo();
-            Console.WriteLine();
-            var orders3 = collection.GetOrderCollection(order1);
-            orders3[0].DisplayFullInfo();
+            //var orders = collection.GetOrderCollection(order3);
+            //orders[0].DisplayFullInfo();
+            //Console.WriteLine();
+            //var orders2 = collection.GetOrderCollection(order2);
+            //orders2[0].DisplayFullInfo();
+            //Console.WriteLine();
+            //var orders3 = collection.GetOrderCollection(order1);
+            //orders3[0].DisplayFullInfo();
 
+            //Console.WriteLine();
+
+            //var check1 = !client1;
+            //var check2 = !client2;
+            //Console.WriteLine(!client3);
 
 
             Console.ReadKey();

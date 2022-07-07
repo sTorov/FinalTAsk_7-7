@@ -26,9 +26,9 @@
     {
         protected string LastName;
         private string age;
-        protected string Age 
+        protected string Age
         {
-            get { return age; } 
+            get { return age; }
             set
             {
                 bool conv = int.TryParse(value, out int result);
@@ -44,7 +44,7 @@
                 }
                 else
                     Console.WriteLine($"Заказчик {SecondName ?? "(Фамилия не указана)"} {FirstName ?? "(Имя не указано)"}\nНекоректное значение возраста\n");
-                
+
             }
         }
 
@@ -61,7 +61,7 @@
             }
         }
 
-        public Client(string name, string surname, string lastname, string age, string number) : base (name, surname, number) 
+        public Client(string name, string surname, string lastname, string age, string number) : base (name, surname, number)
         {
             LastName = lastname;
             Age = age;
@@ -89,6 +89,26 @@
         public string GetPhoneNumber()
         {
             return PhoneNumber;
+        }
+        public static string operator !(Client a)
+        {
+            string str = String.Empty;
+            if (a == null)
+                return "Данные о клиенте отсутствуют";
+            if (a.FirstName == null || a.FirstName == "")
+                str += "Поле имени не заполнено\n";
+            if (a.SecondName == null || a.SecondName == String.Empty)
+                str += "Поле фамилии не заполнено\n";
+            if (a.LastName == null || a.LastName == String.Empty)
+                str += "Поле отчества не заполнено\n";
+            if (a.Age == null || a.Age == String.Empty)
+                str += "Поле возраста не заполнено\n";
+            if (a.phoneNumber == null || a.phoneNumber == String.Empty)
+                str += "Номер телефона не указан";
+            if(str == String.Empty)    
+                return "Все поля заполнены корректно!";
+            else
+                return str;
         }
     }
     class Staff : Person 
