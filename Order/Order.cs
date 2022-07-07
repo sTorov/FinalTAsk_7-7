@@ -61,7 +61,7 @@
 
     class OrderCollection
     {
-        protected AllOrders[] Orders { get; set; }
+        public AllOrders[] Orders { get; protected set; }
 
         public OrderCollection()
         {
@@ -80,16 +80,29 @@
             }
         }
 
-        public Order<TDelivery, TProduct>[] GetOrderCollection<TDelivery, TProduct>(params Order<TDelivery, TProduct>[] order) 
+        public Order<TDelivery, TProduct>[] GetOrderCollection<TDelivery, TProduct>(params AllOrders[] order) 
             where TDelivery : Delivery
             where TProduct : Product
         {
-            var newCollection = new Order<TDelivery, TProduct>[order.Length];
+            var collection = new Order<TDelivery, TProduct>[0];
 
             for (int i = 0; i < order.Length; i++)
-                newCollection[i] = order[i];
+            {
+                if (order[i] is Order<TDelivery,TProduct>)
+                {
+                    var newCollection = new Order<TDelivery, TProduct>[collection.Length + 1];
+                    
+                    if(collection.Length != 0)
+                    {
+                        for (int j = 0; j < collection.Length; j++)
+                            newCollection[j] = collection[j];
+                    }
+                    newCollection[newCollection.Length - 1] = (Order<TDelivery,TProduct>)order[i];
 
-            return newCollection;            
+                    collection = newCollection;
+                }
+            }
+            return collection;
         }
         public void AddOrder(params AllOrders[] order)
         {
@@ -108,10 +121,28 @@
                 Orders = newCollection;
             }
         }
-        public void ViewAllOrders()
+        public void ViewAllOrders(AllOrders[] orders)
         {
-            for(int i = 0; i < Orders.Length; i++)
-                Console.WriteLine($"Заказ №{Orders[i].Number}\t\tСтатус: {Orders[i].Status}");
+            if (orders.Length != 0 || orders == null)
+            {
+                for (int i = 0; i < orders.Length; i++)
+                    Console.WriteLine($"Заказ №{orders[i].Number}\tСтатус: {orders[i].Status}");
+            }
+            else
+                Console.WriteLine("Данные отсутствуют");
+        }
+        public void ViewAllOrders<TDelivery, TProduct>(Order<TDelivery, TProduct>[] orders)
+            where TDelivery : Delivery
+            where TProduct : Product
+        {
+            if(orders.Length != 0 || orders == null)
+            {
+                Console.WriteLine($"Тип доставки: {orders[0].Delivery.DeliveryType}\t\tТип товара: {orders[0].Prodact.Type}\n");
+                for (int i = 0; i < orders.Length; i++)
+                    Console.WriteLine($"Заказ №{orders[i].Number}\tСтатус: {orders[i].Status}");
+            }
+            else
+                Console.WriteLine("Данные отсутствуют");
         }
     }
 
