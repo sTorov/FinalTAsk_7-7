@@ -90,7 +90,7 @@
         {
             return PhoneNumber;
         }
-        public static string operator !(Client a)
+        public static string operator ! (Client a)
         {
             string str = String.Empty;
             if (a == null)

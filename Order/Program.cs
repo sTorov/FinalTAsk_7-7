@@ -2,7 +2,7 @@
 {
     
     class Program
-    {
+    {        
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF7;
@@ -29,16 +29,17 @@
             Console.Clear();
 
             OrderCollection collection = new();
-            collection.ViewAllOrders(collection.Orders);
-
-            collection.AddOrder(order2, order3, order1, order4);
-            collection.ViewAllOrders(collection.Orders);
-
-            var array = collection.GetOrderCollection<PickPointDelivery, ATXComputer>(collection.Orders);
-            collection.ViewAllOrders(array);
-
+            var allOrders = collection.GetAllOrders();
+            collection.ViewAllOrders(allOrders);
             Console.WriteLine();
 
+            collection.AddOrder(order2, order3, order1, order4);
+            allOrders = collection.GetAllOrders();
+            collection.ViewAllOrders(allOrders);
+            Console.WriteLine();
+
+            var array = collection.GetOrderCollection<PickPointDelivery, ATXComputer>(allOrders);
+            collection.ViewAllOrders(array);
 
             Console.WriteLine();
 

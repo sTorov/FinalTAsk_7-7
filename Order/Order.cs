@@ -9,9 +9,9 @@
 
     abstract class AllOrders 
     {
-        public uint Number { get; protected set; }
+        public uint Number { get; }
         public Client Client { get; protected set; }
-        public string Description { get; protected set; }
+        public string Description { get; }
         public OrderStatus Status { get; protected set; }
 
         public AllOrders(Client client, uint number,  string description)
@@ -19,6 +19,7 @@
             Number = number;
             Client = client;
             Description = description;
+            Status = OrderStatus.Awaiting;
         }
         public void ShortInfo()
         {
@@ -36,11 +37,7 @@
         
         public Order(Client client, TProduct prodact, uint number, string description) : base (client, number, description)
         {
-            Client = client;
             Prodact = prodact;
-            Number = number;
-            Description = description;
-            Status = OrderStatus.Awaiting;
         }
 
         public virtual void DisplayOrderTime() => Console.WriteLine($"Дата оформления заказа: {Delivery.OrderDate}");
@@ -61,7 +58,7 @@
 
     class OrderCollection
     {
-        public AllOrders[] Orders { get; protected set; }
+        private AllOrders[] Orders;
 
         public OrderCollection()
         {
@@ -78,6 +75,11 @@
 
                 return null;
             }
+        }
+
+        public AllOrders[] GetAllOrders()
+        {
+            return Orders;
         }
 
         public Order<TDelivery, TProduct>[] GetOrderCollection<TDelivery, TProduct>(params AllOrders[] order) 
@@ -125,6 +127,7 @@
         {
             if (orders.Length != 0 || orders == null)
             {
+                Console.WriteLine("Тип доставки: Любой\t\tТип товара: Любой\n");
                 for (int i = 0; i < orders.Length; i++)
                     Console.WriteLine($"Заказ №{orders[i].Number}\tСтатус: {orders[i].Status}");
             }

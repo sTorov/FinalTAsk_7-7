@@ -99,8 +99,10 @@
         public PickPointDelivery(string address) : base (null)
         {
             allPickPoint = new PickPointCollection();
+
             Address = allPickPoint[address];
             Address ??= "Пункта выдачи с таким адресом не существует";
+            
             StorageEndTime = DateTime.Now.AddDays(5).ToString();
             DeliveryType = DeliveryType.PickPoint;
         }
