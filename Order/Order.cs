@@ -53,7 +53,7 @@
             Console.WriteLine($"Номер телефона заказчика:\t{Client?.GetPhoneNumber() ?? "Нет данных"}");
             Console.WriteLine($"Тип доставки: {Delivery.DeliveryType}\t\tСтатус: {Status}");
             Console.WriteLine($"\nОписание доставки:\n{Description}\n");
-            Console.WriteLine($"Товар: {Prodact?.Name ?? "Нет данных"}\tМодель: {Prodact?.Model ?? "Нет данных"}\tЦена: {Prodact?.Cost ?? default} Руб");
+            Console.WriteLine($"Товар: {Prodact.Type}\tМодель: {Prodact?.Model ?? "Нет данных"}\tЦена: {Prodact?.Cost ?? default} Руб");
             Console.WriteLine($"\nХарактеристики:\n");
             Prodact.Characteristic();
         }
@@ -111,7 +111,7 @@
         public void ViewAllOrders()
         {
             for(int i = 0; i < Orders.Length; i++)
-                Console.WriteLine($"Заказ №{Orders[i].Number}\t{Orders[i].Status}");
+                Console.WriteLine($"Заказ №{Orders[i].Number}\t\tСтатус: {Orders[i].Status}");
         }
     }
 

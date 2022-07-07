@@ -1,14 +1,24 @@
 ﻿namespace Order
 {
+    enum ProductType
+    {
+        PowerSupply = 0,
+        Processor,
+        HardDrive,
+        CorpusATX,
+        CorpusMiniITX,
+        ATXComputer,
+        MiniITXComputer
+    }
+    
     abstract class Product
     {
-        public string Name { get; }
         public double Cost { get; }
         public string Model { get; }
+        public ProductType Type { get; protected set; }
 
-        public Product(string name, double cost, string model)
+        public Product(double cost, string model)
         {
-            Name = name;
             Cost = cost;
             Model = model;
         }
@@ -20,27 +30,30 @@
     {
         protected int Power;
 
-        public PowerSupply() : base ("Power", 1500, "PW-02")
+        public PowerSupply() : base (1500, "PW-02")
         {
             Power = 25;
+            Type = ProductType.PowerSupply;
         }
         public override void Characteristic() => Console.WriteLine($"Мощность блока питания:\t{Power} Вт"); 
     }
     class Processor : ComputerPart
     {
         protected double Frequency;
-        public Processor() : base ("Processor", 5000, "Intel i3")
+        public Processor() : base (5000, "Intel i3")
         {
             Frequency = 3.1;
+            Type = ProductType.Processor;
         }
         public override void Characteristic() => Console.WriteLine($"Частота процессора:\t{Frequency} ГГц");
     }
     class HardDrive : ComputerPart
     {
         protected double Memory;
-        public HardDrive() : base ("Disk", 4000, "Toshiba")
+        public HardDrive() : base (4000, "Toshiba")
         {
             Memory = 512;
+            Type = ProductType.HardDrive;
         }
         public override void Characteristic() => Console.WriteLine($"Память жесткого диска:\t{Memory} Гб");
     }
@@ -48,7 +61,7 @@
 
     abstract class ComputerPart : Product
     {
-        public ComputerPart(string name, double cost, string model) : base (name, cost, model) { }
+        public ComputerPart(double cost, string model) : base (cost, model) { }
     }
 
 
@@ -79,16 +92,17 @@
         protected MotherBoardFormFactor MotherBoard { get; set; }
         protected Dimensions Dimensions { get; set; }
 
-        public Corps(string name, double cost, string model) : base (name, cost, model) { }
+        public Corps(double cost, string model) : base (cost, model) { }
     }
 
     class ATXCorps : Corps
     {
-        public ATXCorps() : base ("Corpus", 3500, "ATX Corps")
+        public ATXCorps() : base (3500, "ATX Corps")
         {
             MotherBoard = MotherBoardFormFactor.ATX;
             Dimensions = new Dimensions(210, 180, 220);
             CorpsMaterial = "Steel";
+            Type = ProductType.CorpusATX;
         }
         public override void Characteristic()
         {
@@ -102,11 +116,12 @@
 
     class MiniITXCorps : Corps
     {
-        public MiniITXCorps() : base ("Corpus", 2500, "MiniITX Corps")
+        public MiniITXCorps() : base (2500, "MiniITX Corps")
         {
             MotherBoard = MotherBoardFormFactor.MiniITX;
             Dimensions = new Dimensions(185, 274, 360);
             CorpsMaterial = "Aluminium";
+            Type = ProductType.CorpusMiniITX;
         }
         public override void Characteristic()
         {
@@ -120,7 +135,7 @@
 
     abstract class Computer<TCorps> : Product where TCorps : Corps, new()
     {
-        public Computer(string name, double cost, string model) : base (name, cost, model) { }
+        public Computer(double cost, string model) : base (cost, model) { }
 
         protected PowerSupply powerSupply = new PowerSupply();
         protected Processor processor = new Processor();
@@ -138,7 +153,11 @@
 
     class ATXComputer : Computer<ATXCorps> 
     {
-        public ATXComputer() : base("ATXComp", 25000, "ATX-2020") { }
+        public ATXComputer() : base(25000, "ATX-2020") 
+        {
+            Type = ProductType.ATXComputer;
+        }
+
         public override void ChangeComputerPart<TComputerPart>(TComputerPart newPart) 
         { 
             base.ChangeComputerPart<TComputerPart>(newPart);
@@ -154,7 +173,11 @@
     }
     class MiniITXComputer : Computer<MiniITXCorps>
     {
-        public MiniITXComputer() : base("MiniITXComp", 22000, "ITX-2021") { }
+        public MiniITXComputer() : base(22000, "ITX-2021") 
+        {
+            Type = ProductType.MiniITXComputer;
+        }
+
         public override void ChangeComputerPart<TComputerPart>(TComputerPart newPart) 
         {
             base.ChangeComputerPart<TComputerPart>(newPart);
